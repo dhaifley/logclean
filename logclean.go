@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const version = "1.0.1"
+const version = "1.1.1"
 
 func showUsage() {
 	log.Println(`Usage: logclean [options] index_name

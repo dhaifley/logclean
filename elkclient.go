@@ -17,14 +17,13 @@ type ELKClient struct {
 }
 
 // ELKResult instances contain information about the result of a
-// single export operation.
+// single operation on the elasticsearch server.
 type ELKResult struct {
 	Msg string `json:"data,omitempty"`
 	Err error  `json:"error,omitempty"`
 }
 
-// GetIndexes retrieves the list of all indexes from the elasticsearch
-// database.
+// GetIndexes retrieves the list of all indexes from the elasticsearch server.
 // It returns a channel of ELKResults containing the index listings.
 // If any problems are encountered, the ELKResult will contain an error.
 func (ec *ELKClient) GetIndexes() <-chan ELKResult {
@@ -87,7 +86,7 @@ func (ec *ELKClient) GetIndexes() <-chan ELKResult {
 	return c
 }
 
-// DeleteIndex deletes the specified index from the elasticsearch database.
+// DeleteIndex deletes the specified index from the elasticsearch server.
 // It returns an ELKResult value containing the name of the deleted index.
 // If any problems are encountered, the ELKResult will contain an error.
 func (ec *ELKClient) DeleteIndex(index string) ELKResult {
