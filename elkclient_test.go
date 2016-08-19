@@ -57,14 +57,12 @@ func TestELKClientDeleteIndex(t *testing.T) {
 
 	hc := &http.Client{Transport: tr}
 	cli := &ELKClient{"testindex", 20, hc}
-
-	result := ""
 	ri := cli.DeleteIndex("testindex-1983.02.02")
 	if ri.Err != nil {
 		t.Error(ri.Err)
 	}
 
-	result = ri.Msg
+	result := ri.Msg
 	expected := "testindex-1983.02.02"
 	if string(result) != expected {
 		t.Errorf("Index expected: %q, got: %q", expected, result)
