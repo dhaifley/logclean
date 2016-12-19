@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -52,8 +51,7 @@ func (ec *ELKClient) GetIndexes() <-chan ELKResult {
 
 		if res.StatusCode != http.StatusOK {
 			err := ELKResult{
-				Err: errors.New(fmt.Sprintf("%d: %s",
-					res.StatusCode, string(data))),
+				Err: fmt.Errorf("%d: %s", res.StatusCode, string(data)),
 			}
 			c <- err
 			return
@@ -99,17 +97,16 @@ func (ec *ELKClient) DeleteIndex(index string) ELKResult {
 	if err != nil {
 		return ELKResult{Err: err}
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		defer res.Body.Close()
 		data, err := ioutil.ReadAll(res.Body)
 		if err != nil {
 			return ELKResult{Err: err}
 		}
 
 		return ELKResult{
-			Err: errors.New(fmt.Sprintf("%d: %s",
-				res.StatusCode, string(data))),
+			Err: fmt.Errorf("%d: %s", res.StatusCode, string(data)),
 		}
 	}
 
